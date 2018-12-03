@@ -1,0 +1,19 @@
+apps:
+  - script   : ./app/server.js
+    name  : aries-logger-server
+    #instances: 1
+    #exec_mode: cluster
+    watch  : true
+    env    :
+      NODE_ENV: development
+    env_production:
+      NODE_ENV: production
+  - script : ./app/digestion.js
+    name  : aries-logger-digestion
+    #instances: 1
+    #exec_mode: cluste
+    watch  : true
+    env    :
+      NODE_ENV: development
+    env_production:
+      NODE_ENV: production

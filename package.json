@@ -1,0 +1,22 @@
+{
+  "name": "aries-logger-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aries-logger": "^1.0.3",
+    "ioredis": "^4.2.0",
+    "mongoose": "^5.3.14",
+    "siwi-wait": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
