@@ -8,32 +8,17 @@
 (async () => {
     const services = require('../index')
     const {
-        MONGODB_PORT,
-        MONGODB_HOST,
-        MONGODB_DATABASE
-    } = services.configs.mongodb
-    const {
-        REDIS_HOST,
-        REDIS_PASSWORD,
-        REDIS_PORT
-    } = services.configs.redis
-    const {
         LOG_LIST_QUEUE
     } = services.configs.logger
     const wait = require('siwi-wait')
 
     // REDIS
-    const Redis = require('ioredis')
-    const redis = new Redis({
-        port: REDIS_PORT,
-        host: REDIS_HOST,
-        password: REDIS_PASSWORD
-    })
-
+    const redis = require('./libs/redis')
     // MONGODB
-    const mongoose = require('mongoose')
-    mongoose.connect(`mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`, {
-        useNewUrlParser: true
+    const mongo = require('./libs/mongodb')
+    mongo.on('error', console.error.bind(console, 'connection error:'))
+    mongo.once('open', () => {
+        console.log('mongodb is open')
     })
 
     const Logs_Model = require('./mongooses/logs')
@@ -44,7 +29,11 @@
             console.log('no log to process')
             await wait(5000)
         }
-        const logObj = JSON.parse(log)
-        await Logs_Model.create(logObj)
+        try {
+            const logObj = JSON.parse(log)
+            await Logs_Model.create(logObj)
+        } catch (error) {
+            console.trace(error)
+        }
     }
 })()
